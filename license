@@ -1,0 +1,72 @@
+The Flattery — Dual License
+Copyright (c) 2025 Olivia Robinson
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART 1 — SOURCE CODE
+GNU Affero General Public License v3.0 (AGPL-3.0)
+with Non-Commercial Restriction
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The source code of this software is licensed under the terms of the
+GNU Affero General Public License version 3, as published by the
+Free Software Foundation — with the additional restriction that it
+may NOT be used for commercial purposes without explicit written
+permission from the copyright holder.
+
+You may:
+  - Use, study, and run the software for personal or non-commercial purposes
+  - Share copies of the software, provided this license is included
+  - Modify the software and distribute modified versions, provided:
+      (a) you release your modifications under this same license
+      (b) you state clearly what you changed and when
+      (c) if you run a modified version as a network service, you must
+          make the complete source code available to users of that service
+
+You may NOT:
+  - Use this software, in whole or in part, for any commercial purpose
+  - Sell, sublicense, or incorporate it into a paid product or service
+  - Remove or alter this license or copyright notice
+
+The full text of the GNU AGPL v3.0 is available at:
+https://www.gnu.org/licenses/agpl-3.0.html
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART 2 — DESIGN, VISUAL ASSETS & DOCUMENTATION
+Creative Commons Attribution-NonCommercial 4.0 International
+(CC BY-NC 4.0)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The design, user interface, visual assets, documentation, and any
+non-code creative content in this project are licensed under the
+Creative Commons Attribution-NonCommercial 4.0 International License.
+
+You are free to:
+  - Share — copy and redistribute the material in any medium or format
+  - Adapt — remix, transform, and build upon the material
+
+Under the following terms:
+  - Attribution — You must give appropriate credit, provide a link to
+    the license, and indicate if changes were made. You may do so in
+    any reasonable manner, but not in any way that suggests the
+    licensor endorses you or your use.
+  - NonCommercial — You may not use the material for commercial purposes.
+
+The full text of CC BY-NC 4.0 is available at:
+https://creativecommons.org/licenses/by-nc/4.0/
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COMMERCIAL LICENSING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+If you wish to use The Flattery or its source code in a commercial
+context, please contact the copyright holder to discuss a commercial
+license agreement.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DISCLAIMER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE
+FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF
+THIS SOFTWARE.
