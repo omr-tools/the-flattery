@@ -19,7 +19,7 @@ Upload a Wavefront OBJ file with UV seams (exported from Blender or similar), an
 
 ## How to use
 
-**Live app:** [omr-tools.github.io/the-flattery](https://manyolives.github.io/the-flattery)
+**Live app:** [omr-tools.github.io/the-flattery](https://omr-tools.github.io/the-flattery)
 
 Or download `index.html` and open it directly in any modern browser — it runs entirely offline.
 
