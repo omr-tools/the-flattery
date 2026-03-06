@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  /* ── v111 ── */
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Flattery – 2D Pattern from 3D OBJ</title>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&family=Abril+Fatface&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&family=Abril+Fatface&family=Fugaz+One&display=swap" rel="stylesheet">
 <style>
   :root {
     --green: #1CB394;
@@ -57,7 +58,8 @@
     border: 2px solid var(--green-border);
     border-radius: 8px;
     padding: 4px 14px;
-    font-size: 22px; font-weight: 700; color: #fff;
+    font-family: 'Fugaz One', cursive;
+    font-size: 22px; font-weight: 400; color: #fff;
     letter-spacing: 0.04em;
     box-shadow: 7px 9px 8px rgba(28,179,148,0.28);
     flex-shrink: 0;
@@ -142,7 +144,7 @@
     text-transform: uppercase;
   }
   .hero-title {
-    font-family: 'Abril Fatface', cursive;
+    font-family: 'Fugaz One', cursive;
     font-size: clamp(42px, 8vw, 80px);
     font-weight: 400;
     color: var(--dark-red);
@@ -738,21 +740,8 @@
 
 <!-- NAV -->
 <nav id="navbar">
-  <svg class="star-logo" viewBox="0 0 66 58" onclick="goHome()">
-    <defs>
-      <filter id="starShadow" x="-30%" y="-70%" width="230%" height="200%">
-        <feOffset dx="16" dy="-6" in="SourceAlpha" result="o"/>
-        <feGaussianBlur stdDeviation="2.5" in="o" result="b"/>
-        <feColorMatrix values="0 0 0 0 0.54 0 0 0 0 0.80 0 0 0 0 0.93 0 0 0 1 0" in="b"/>
-      </filter>
-    </defs>
-    <g transform="translate(37.5,28.5) rotate(29) translate(-37.5,-28.5)">
-      <polygon points="37.5,36.75 27.8,41.85 29.65,31.05 21.81,23.40 32.65,21.83 37.5,12 42.35,21.83 53.19,23.40 45.35,31.05 47.20,41.85" fill="black" fill-opacity="0.08" filter="url(#starShadow)"/>
-      <polygon points="37.5,36.75 27.8,41.85 29.65,31.05 21.81,23.40 32.65,21.83 37.5,12 42.35,21.83 53.19,23.40 45.35,31.05 47.20,41.85" fill="#FAFAF6" stroke="#010D26" stroke-width="2"/>
-    </g>
-  </svg>
 
-  <div class="app-title">The Flattery</div>
+  <div class="app-title" onclick="goHome()" style="cursor:pointer;">✦ The Flattery ✦</div>
 
   <div class="tabs">
     <button class="tab-btn active" data-tab="upload" onclick="switchTab('upload')" id="tab-upload">upload</button>
@@ -2168,7 +2157,7 @@ function initLabelCanvasInteraction(canvas) {
     const rect = canvas.getBoundingClientRect();
     const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
     const my = (e.clientY - rect.top)  * (canvas.height / rect.height);
-    const hitIdx = pickPieceFromCanvasWithCam(canvas, mx, my, labelCamera);
+    const hitIdx = pickPieceFromCanvasWithCam(canvas, mx, my, labelCamera, null, true);
     if (hitIdx >= 0) setLabelHighlight(hitIdx);
   });
 }
@@ -2671,11 +2660,11 @@ function initMapModelInteraction(canvas) {
 
 }
 
-// Pick which piece was clicked — camera-agnostic version
-// fitSize: optional override for the scale reference dimension (used by map tab
-// where the canvas is taller than wide but the model is scaled to panel width).
-// Must match the fitSize passed to drawMapScene for accurate hit-testing.
-function pickPieceFromCanvasWithCam(canvas, mx, my, cam, fitSize) {
+// Pick which piece was clicked — camera-agnostic version.
+// useSceneProjection: pass true for canvases rendered by drawScene (Review/Label),
+//   false/omit for Map tab canvases rendered by drawMapScene.
+// fitSize: scale-reference override for drawMapScene (map tab only).
+function pickPieceFromCanvasWithCam(canvas, mx, my, cam, fitSize, useSceneProjection) {
   const verts=appState.vertices, faces=appState.faces;
   if(!verts.length||!faces.length)return -1;
   const W=canvas.width, H=canvas.height;
@@ -2691,27 +2680,43 @@ function pickPieceFromCanvasWithCam(canvas, mx, my, cam, fitSize) {
   let mnY=Infinity,mxY=-Infinity,mnX=Infinity,mxX=-Infinity;
   for(const[rx,ry]of rotated){if(ry<mnY)mnY=ry;if(ry>mxY)mxY=ry;if(rx<mnX)mnX=rx;if(rx>mxX)mxX=rx;}
   const mH=(mxY-mnY)||1,mW=(mxX-mnX)||1;
-  // Mirror drawMapScene: use fitSize as the scale reference when provided
-  const scaleRef = fitSize || Math.min(W, H);
-  const baseScale=Math.min((scaleRef*0.99)/mH,(scaleRef*0.99)/mW);
-  const orthoScale=baseScale*cam.zoom;
   const midY=(mnY+mxY)/2,midX=(mnX+mxX)/2;
-  const modelScreenH = mH * orthoScale;
-  const topMargin = 18;
-  const cx=W/2+(cam.panX||0),cy=topMargin+modelScreenH/2+(cam.panY||0);
+  let cx, cy, orthoScale;
+  if (useSceneProjection) {
+    // Mirror drawScene exactly: centered at W/2, H/2; TARGET_FILL=0.90 height, 0.92 width
+    const baseScale = Math.min((H * 0.90) / mH, (W * 0.92) / mW);
+    orthoScale = baseScale * cam.zoom;
+    cx = W/2 + (cam.panX||0);
+    cy = H/2 + (cam.panY||0);
+  } else {
+    // Mirror drawMapScene: top-anchored, fitSize as scale reference
+    const scaleRef = fitSize || Math.min(W, H);
+    const baseScale = Math.min((scaleRef*0.99)/mH, (scaleRef*0.99)/mW);
+    orthoScale = baseScale * cam.zoom;
+    const modelScreenH = mH * orthoScale;
+    const topMargin = 18;
+    cx = W/2 + (cam.panX||0);
+    cy = topMargin + modelScreenH/2 + (cam.panY||0);
+  }
   function project(rv){return[cx+(rv[0]-midX)*orthoScale,cy-(rv[1]-midY)*orthoScale,rv[2]];}
   const proj=rotated.map(project);
 
   const facePieceMap=new Array(faces.length).fill(-1);
   appState.pieces.forEach((p,pi)=>{for(const fi of p.faceIndices)facePieceMap[fi]=pi;});
 
-  // Find frontmost face under cursor
+  // Find frontmost FRONT-FACING face under cursor.
+  // Back-face culling (signedArea >= 0) matches what drawScene renders,
+  // preventing clicks near silhouette edges from selecting hidden back faces.
   let bestZ=-Infinity, bestPiece=-1;
   for(let fi=0;fi<faces.length;fi++){
     const f=faces[fi];
     const vs=f.vi.map(vi=>proj[vi]);
     if(vs.some(v=>!v))continue;
-    // point-in-polygon test
+    // Back-face cull: signed area negative = front-facing (canvas Y-down convention)
+    const v0=vs[0],v1=vs[1],v2=vs[2];
+    const signedArea=(v1[0]-v0[0])*(v2[1]-v0[1])-(v2[0]-v0[0])*(v1[1]-v0[1]);
+    if(signedArea>=0)continue; // skip back faces
+    // Point-in-polygon test
     let inside=false;
     for(let i=0,j=vs.length-1;i<vs.length;j=i++){
       if(((vs[i][1]>my)!==(vs[j][1]>my))&&(mx<(vs[j][0]-vs[i][0])*(my-vs[i][1])/(vs[j][1]-vs[i][1])+vs[i][0]))
